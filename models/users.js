@@ -18,7 +18,7 @@ const UsersSchema = new Schema({
     },
     cfname: {
         type: String,
-//        require: true,
+
     },
     cfData:{
         type:Object
