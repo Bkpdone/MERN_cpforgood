@@ -8,15 +8,7 @@ const port=process.env.PORT || 7000;
 app.use(express.json());//see req.body on terminal
 const bodyParser = require('body-parser');
 
-////////////////////////////Del
 
-
-
-
-
-
-
-/////////////////////////////DEl
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
