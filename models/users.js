@@ -1,6 +1,13 @@
 const mongoose = require('mongoose')
 const { Schema } = mongoose;
 
+
+const multer = require('multer');
+const path = require('path');
+const Photos_Path = path.join('/uploads/avatar');
+
+
+
 const UsersSchema = new Schema({
 
     name: {
@@ -39,11 +46,13 @@ const UsersSchema = new Schema({
     ],
     maxRating:{
         type: String,
+        require: true,
     },
     maxRank:{
         type: String,
+        require: true,
     },
-    avatr: {
+    avatar: {
         type: String,
         require: true,
     },
@@ -55,10 +64,32 @@ const UsersSchema = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Friends'
     }],
-  
+    doc:[{
+        originalName:  String,
+        mimeType: String,
+        path:  String,
+    }],
     date: { type: Date, default: Date.now },
 
 });
+
+
+
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+    
+        cb(null, path.join(__dirname,"..", Photos_Path));
+    },
+    filename: function (req, file, cb) {
+        console.log('Helooo File ',file);
+        cb(null,file.fieldname + '-' + Date.now())
+    }
+  })
+  
+  UsersSchema.statics.UpdatePhoto= multer({ storage: storage }).single('avatar');
+  UsersSchema.statics.PhotosPath=Photos_Path;
+  
 
 const Users = mongoose.model('Users', UsersSchema);
 

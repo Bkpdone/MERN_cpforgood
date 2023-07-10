@@ -27,63 +27,48 @@ router.get('/home', fetchUser, async (req, res) => {
 
                   if (cfhandle) {
                         try {
-
-                              fetch(apiUrl)
-                                    .then(response => response.json())
-                                    .then(data => {
-                                          // do something with the data
-                                          console.log(data);
-                                          if (data.status == 'OK') {
-                                                console.log("ok ==>",data.result[0].handle);
-                                                Users.findOne({ cfname: data.result[0].handle }).then((findUser) => {
-
-                                                      console.log('hach wrong aahe=>>>>>>, ttt',findUser);
-                                                      Users.findByIdAndUpdate(findUser.id, {
-                                                            cfData: data.result[0],
-                                                            maxRating:data.result[0].maxRating,
-                                                            maxRank:data.result[0].maxRank
-                                                      }).then((updateUser) => {
-                                                            console.log('UpdateUser cfData SuccessFully.....', updateUser)
-                                                      }, (err) => {
-                                                            console.log('Error Updat xxxxxx=> ', err);
-                                                      })
-                                                }, (err) => {
-                                                      console.log('Error xxxxxx=> ', err);
-                                                })
-                                          }
-                                          else {
-
-                                          }
-                                          //      Users.find({ cfname: data.result[0].handle }, (err, value_data) => {
-                                          //           if (err) {
-                                          //                console.log('Error in Find Handle Data: ', err);
-                                          //           }
-                                          //           console.log('HI Bhavesh Sir Value Data: ');
-                                          //           console.log(value_data);
-                                          //           Users.findByIdAndUpdate(value_data[0].id, {
-                                          //                cfData: data.result[0],
-
-                                          //           }, (err, finalData) => {
-
-                                          //                if (err) {
-                                          //                     console.log('Error in Update Data: ', err);
-                                          //                }
-                                          //                console.log("Firnal Updated Data: ", finalData);
-                                          //           });
-
-                                          //     });
-
-
-                                    })
-                                    .catch(error => {
-                                          console.error('Error:', error);
-                                    });
-
+                            fetch(apiUrl)
+                                .then(response => response.json())
+                                .then(data => {
+                                    // do something with the data
+                                    console.log(data);
+                                    if (data.status === 'OK') {
+                                        console.log("ok ==>", data.result[0].handle);
+                                        Users.findOne({ cfname: data.result[0].handle })
+                                            .then(findUser => {
+                                                console.log('findUser =>', findUser);
+                                                if (findUser) {
+                                                    Users.findByIdAndUpdate(findUser.id, {
+                                                        cfData: data.result[0],
+                                                        maxRating: data.result[0].maxRating,
+                                                        maxRank: data.result[0].maxRank
+                                                    })
+                                                        .then(updateUser => {
+                                                            console.log('UpdateUser cfData Successfully.....', updateUser);
+                                                        })
+                                                        .catch(err => {
+                                                            console.log('Error Updating User =>', err);
+                                                        });
+                                                } else {
+                                                    console.log('53 =>User not found.');
+                                                }
+                                            })
+                                            .catch(err => {
+                                                console.log(' 57 => Error finding User =>', err);
+                                            });
+                                    } else {
+                                        // Handle other cases if needed
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error('Error:', error);
+                                });
+                        } catch (err) {
+                            console.log('Error in fetch cf api =>', err);
                         }
-                        catch (err) {
-                              console.log('Error in fetch cf api x x x', err);
-                        }
-                  }
+                    }
+                    
+                    
 
             }
             const posts = await Posts.find({})

@@ -49,6 +49,9 @@ app.use('/api/like',require('./routes/like'))
 app.use('/api/friends',require('./routes/friends'));
 //profile
 app.use('/profile',require('./routes/profilepage'));
+//
+app.use('/api/upload',require('./routes/doc'))
+
 
 app.listen(port,(err)=>{
       

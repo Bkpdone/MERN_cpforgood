@@ -36,6 +36,10 @@ const PostsSchema = new Schema({
     imgdata:{
         type: String,
     },
+    doc:[{
+        type:String
+    }],
+    
     date: { type: Date, default: Date.now },
 
 },
