@@ -1,7 +1,8 @@
 const mongoose=require('mongoose');
 mongoose.set('strictQuery',false);
 
-const uri ="mongodb://0.0.0.0:27017/cpforgood"
+// const uri ="mongodb://0.0.0.0:27017/cpforgood"
+const uri =process.env.DB;
 
 mongoose.connect(uri);
 const db=mongoose.connection;
