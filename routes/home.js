@@ -12,7 +12,7 @@ router.get('/home', fetchUser, async (req, res) => {
       try {
             let success = false;
             const userId = req.user.id;
-            console.log(userId);
+            //console.log(userId);
 
             const findUser = await Users.findById(userId);
             if (!findUser) {
@@ -22,7 +22,7 @@ router.get('/home', fetchUser, async (req, res) => {
 
             for (let val of Alluser) {
                   const cfhandle = val.cfname;
-                  console.log(cfhandle);
+                  //console.log(cfhandle);
                   const apiUrl = 'https://codeforces.com/api/user.info?handles=' + cfhandle;
 
                   if (cfhandle) {
@@ -31,12 +31,12 @@ router.get('/home', fetchUser, async (req, res) => {
                                 .then(response => response.json())
                                 .then(data => {
                                     // do something with the data
-                                    console.log(data);
+                                    //console.log(data);
                                     if (data.status === 'OK') {
-                                        console.log("ok ==>", data.result[0].handle);
+                                        //console.log("ok ==>", data.result[0].handle);
                                         Users.findOne({ cfname: data.result[0].handle })
                                             .then(findUser => {
-                                                console.log('findUser =>', findUser);
+                                                //console.log('findUser =>', findUser);
                                                 if (findUser) {
                                                     Users.findByIdAndUpdate(findUser.id, {
                                                         cfData: data.result[0],
@@ -44,7 +44,7 @@ router.get('/home', fetchUser, async (req, res) => {
                                                         maxRank: data.result[0].maxRank
                                                     })
                                                         .then(updateUser => {
-                                                            console.log('UpdateUser cfData Successfully.....', updateUser);
+                                                            //console.log('UpdateUser cfData Successfully.....', updateUser);
                                                         })
                                                         .catch(err => {
                                                             console.log('Error Updating User =>', err);
