@@ -44,7 +44,7 @@ router.post('/create-post', fetchUser, async (req, res, file) => {
         const post = await Posts.create(obj);
 
 
-        Posts.UpdatePhoto(req, res, function () {
+        Posts.UpdatePhoto(req, res,async function () {
 
 
 
@@ -52,7 +52,7 @@ router.post('/create-post', fetchUser, async (req, res, file) => {
             if (req.file) {
                 post.imgdata = req.file.filename;
             }
-            post.save();
+            await post.save();
 
             console.log('create post SuccessFully.............................................', post);
             success = true
